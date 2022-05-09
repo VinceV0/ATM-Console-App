@@ -16,6 +16,8 @@ namespace ATM_Console_App
         public const string PIN = "1234";
         //Global variable holds user input
         public static string userInput;
+        //Global variable holds how much money is to be withdrawn or deposited by user
+        public static decimal withDep = 0M;
 
         static void CheckPin()
         {
@@ -59,18 +61,55 @@ namespace ATM_Console_App
             {
                 Console.WriteLine(menuOptions[0] + " selected");
                 Console.WriteLine("Your balance is: " + balance.ToString("c"));
+                MainMenu();
             }
             else if (userInput == "2")
             {
                 Console.WriteLine(menuOptions[1] + " selected");
+                Console.WriteLine("How much would you like to withdraw?");
+                try
+                {
+                    withDep = Convert.ToDecimal(Console.ReadLine());
+                }
+                catch
+                {
+                    Console.WriteLine("Please input a valid number");
+                }
+                if (withDep <= balance)
+                {
+                    Console.WriteLine("Withdrawing: " + withDep.ToString("c"));
+                    balance -= withDep;
+                    Console.WriteLine("Your new balance is: " + balance.ToString("c"));
+                }
+                else
+                {
+                    Console.WriteLine("\nInadequate funds, please try another amount\n");
+                }
+                withDep = 0;
+                MainMenu();
             }
             else if (userInput == "3")
             {
                 Console.WriteLine(menuOptions[2] + " selected");
+                Console.WriteLine("How much would you like to deposit?");
+                try
+                {
+                    withDep = Convert.ToDecimal(Console.ReadLine());
+                }
+                catch
+                {
+                    Console.WriteLine("Please input a valid number");
+                }
+                Console.WriteLine("Depositing " + withDep.ToString("c"));
+                balance += withDep;
+                Console.WriteLine("Your new balance is: " + balance.ToString("c"));
+                withDep = 0;
+                MainMenu();
             }
             else if (userInput == "4")
             {
                 Console.WriteLine(menuOptions[3] + " selected");
+                System.Environment.Exit(1);
             }
             else
             {
